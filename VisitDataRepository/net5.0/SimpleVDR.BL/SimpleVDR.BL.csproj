@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -9,14 +9,17 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile></DocumentationFile>
+    <DocumentationFile>.\bin\Debug\net5.0\ORSCF.SimpleVisitDataRepository.BL.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>D:\(git)\ORSCF\(ORSCF) orscf-showcase\VisitDataRepository\net5.0\SimpleVDR.BL\ORSCF.SimpleVisitDataRepository.BL.xml</DocumentationFile>
+    <DocumentationFile>.\bin\Release\net5.0\ORSCF.SimpleVisitDataRepository.BL.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="EntityAnnotations" Version="2.0.1.387" />
+    <PackageReference Include="KornSW.DynamicRepository" Version="0.1.0.406" />
+    <PackageReference Include="KornSW.EntityFrameworkCore.DataAccessFilter" Version="1.0.1-localbuild" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="5.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.2" />
@@ -24,18 +27,11 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="ORSCF.VisitData.Model" Version="1.3.0" />
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.9" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="(LIB)\ORSCF.VisitDataRepository.Model.dll\RepoInterfaces.tt">
-      <LastGenOutput>RepoInterfaces.Generated.cs</LastGenOutput>
-      <Generator>TextTemplatingFileGenerator</Generator>
-    </None>
-    <None Update="(LIB)\ORSCF.VisitDataRepository.Model.dll\Models.tt">
-      <LastGenOutput>Models.Generated.cs</LastGenOutput>
-      <Generator>TextTemplatingFileGenerator</Generator>
-    </None>
     <None Update="Persistence.EF\Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Context.Generated.cs</LastGenOutput>
@@ -44,7 +40,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Entities.Generated.cs</LastGenOutput>
     </None>
-    <None Update="Stores\Stores.tt">
+    <None Update="Stores.tt">
       <LastGenOutput>Stores.Generated.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
@@ -55,16 +51,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="(LIB)\ORSCF.VisitDataRepository.Model.dll\Models.Generated.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Models.tt</DependentUpon>
-    </Compile>
-    <Compile Update="(LIB)\ORSCF.VisitDataRepository.Model.dll\RepoInterfaces.Generated.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>RepoInterfaces.tt</DependentUpon>
-    </Compile>
     <Compile Update="Persistence.EF\Context.Generated.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -75,7 +61,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
-    <Compile Update="Stores\Stores.Generated.cs">
+    <Compile Update="Stores.Generated.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Stores.tt</DependentUpon>

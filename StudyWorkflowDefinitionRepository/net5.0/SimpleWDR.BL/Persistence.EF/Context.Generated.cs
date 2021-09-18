@@ -1,43 +1,47 @@
 using System;
 using Microsoft.EntityFrameworkCore;
+using MedicalResearch.Workflow.Persistence;
 
 namespace MedicalResearch.Workflow.Persistence.EF {
 
-  public class WorkflowDefinitionDbContext : DbContext{
+  /// <summary> EntityFramework DbContext (based on schema version '1.3.0') </summary>
+  public partial class WorkflowDefinitionDbContext : DbContext{
 
-    public DbSet<Arm> Arms { get; set; }
+    public const String SchemaVersion = "1.3.0";
 
-    public DbSet<ResearchStudy> ResearchStudies { get; set; }
+    public DbSet<ArmEntity> Arms { get; set; }
 
-    public DbSet<ProcedureSchedule> ProcedureSchedules { get; set; }
+    public DbSet<ResearchStudyEntity> ResearchStudies { get; set; }
 
-    public DbSet<DataRecordingTask> DataRecordingTasks { get; set; }
+    public DbSet<ProcedureScheduleEntity> ProcedureSchedules { get; set; }
 
-    public DbSet<InducedDataRecordingTask> InducedDataRecordingTasks { get; set; }
+    public DbSet<DataRecordingTaskEntity> DataRecordingTasks { get; set; }
 
-    public DbSet<DrugApplymentTask> DrugAppliymentTasks { get; set; }
+    public DbSet<InducedDataRecordingTaskEntity> InducedDataRecordingTasks { get; set; }
 
-    public DbSet<InducedDrugApplymentTask> InducedDrugApplymentTasks { get; set; }
+    public DbSet<DrugApplymentTaskEntity> DrugAppliymentTasks { get; set; }
 
-    public DbSet<TaskSchedule> TaskSchedules { get; set; }
+    public DbSet<InducedDrugApplymentTaskEntity> InducedDrugApplymentTasks { get; set; }
 
-    public DbSet<InducedSubProcedureSchedule> InducedSubProcedureSchedules { get; set; }
+    public DbSet<TaskScheduleEntity> TaskSchedules { get; set; }
 
-    public DbSet<InducedSubTaskSchedule> InducedSubTaskSchedules { get; set; }
+    public DbSet<InducedSubProcedureScheduleEntity> InducedSubProcedureSchedules { get; set; }
 
-    public DbSet<InducedTreatmentTask> InducedTreatmentTasks { get; set; }
+    public DbSet<InducedSubTaskScheduleEntity> InducedSubTaskSchedules { get; set; }
 
-    public DbSet<TreatmentTask> TreatmentTasks { get; set; }
+    public DbSet<InducedTreatmentTaskEntity> InducedTreatmentTasks { get; set; }
 
-    public DbSet<InducedVisitProcedure> InducedVisitProcedures { get; set; }
+    public DbSet<TreatmentTaskEntity> TreatmentTasks { get; set; }
 
-    public DbSet<VisitProdecureDefinition> VisitProdecureDefinitions { get; set; }
+    public DbSet<InducedVisitProcedureEntity> InducedVisitProcedures { get; set; }
 
-    public DbSet<ProcedureCycleDefinition> ProcedureCycleDefinitions { get; set; }
+    public DbSet<VisitProdecureDefinitionEntity> VisitProdecureDefinitions { get; set; }
 
-    public DbSet<StudyEvent> StudyEvents { get; set; }
+    public DbSet<ProcedureCycleDefinitionEntity> ProcedureCycleDefinitions { get; set; }
 
-    public DbSet<TaskCycleDefinition> TaskCycleDefinitions { get; set; }
+    public DbSet<StudyEventEntity> StudyEvents { get; set; }
+
+    public DbSet<TaskCycleDefinitionEntity> TaskCycleDefinitions { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) {
       base.OnModelCreating(modelBuilder);
@@ -48,7 +52,7 @@ namespace MedicalResearch.Workflow.Persistence.EF {
       // Arm
       //////////////////////////////////////////////////////////////////////////////////////
 
-      var cfgArm = modelBuilder.Entity<Arm>();
+      var cfgArm = modelBuilder.Entity<ArmEntity>();
       cfgArm.ToTable("WdrArms");
       cfgArm.HasKey((e) => new {e.StudyArmName, e.StudyWorkflowName, e.StudyWorkflowVersion});
 
@@ -56,21 +60,21 @@ namespace MedicalResearch.Workflow.Persistence.EF {
       cfgArm
         .HasOne((lcl) => lcl.ResearchStudy )
         .WithMany((rem) => rem.Arms )
-        .HasForeignKey(nameof(Arm.StudyWorkflowName), nameof(Arm.StudyWorkflowVersion))
+        .HasForeignKey(nameof(ArmEntity.StudyWorkflowName), nameof(ArmEntity.StudyWorkflowVersion))
         .OnDelete(DeleteBehavior.Cascade);
 
       // LOOKUP: >>> ProcedureSchedule
       cfgArm
         .HasOne((lcl) => lcl.RootProcedureSchedule )
         .WithMany((rem) => rem.EntryArms )
-        .HasForeignKey(nameof(Arm.RootProcedureScheduleId))
+        .HasForeignKey(nameof(ArmEntity.RootProcedureScheduleId))
         .OnDelete(DeleteBehavior.Restrict);
 
       //////////////////////////////////////////////////////////////////////////////////////
       // ResearchStudy
       //////////////////////////////////////////////////////////////////////////////////////
 
-      var cfgResearchStudy = modelBuilder.Entity<ResearchStudy>();
+      var cfgResearchStudy = modelBuilder.Entity<ResearchStudyEntity>();
       cfgResearchStudy.ToTable("WdrResearchStudies");
       cfgResearchStudy.HasKey((e) => new {e.StudyWorkflowName, e.StudyWorkflowVersion});
 
@@ -78,7 +82,7 @@ namespace MedicalResearch.Workflow.Persistence.EF {
       // ProcedureSchedule
       //////////////////////////////////////////////////////////////////////////////////////
 
-      var cfgProcedureSchedule = modelBuilder.Entity<ProcedureSchedule>();
+      var cfgProcedureSchedule = modelBuilder.Entity<ProcedureScheduleEntity>();
       cfgProcedureSchedule.ToTable("WdrProcedureSchedules");
       cfgProcedureSchedule.HasKey((e) => e.ProcedureScheduleId);
 
@@ -86,14 +90,14 @@ namespace MedicalResearch.Workflow.Persistence.EF {
       cfgProcedureSchedule
         .HasOne((lcl) => lcl.ResearchStudy )
         .WithMany((rem) => rem.ProcedureSchedules )
-        .HasForeignKey(nameof(ProcedureSchedule.StudyWorkflowName), nameof(ProcedureSchedule.StudyWorkflowVersion))
+        .HasForeignKey(nameof(ProcedureScheduleEntity.StudyWorkflowName), nameof(ProcedureScheduleEntity.StudyWorkflowVersion))
         .OnDelete(DeleteBehavior.Cascade);
 
       //////////////////////////////////////////////////////////////////////////////////////
       // DataRecordingTask
       //////////////////////////////////////////////////////////////////////////////////////
 
-      var cfgDataRecordingTask = modelBuilder.Entity<DataRecordingTask>();
+      var cfgDataRecordingTask = modelBuilder.Entity<DataRecordingTaskEntity>();
       cfgDataRecordingTask.ToTable("WdrDataRecordingTasks");
       cfgDataRecordingTask.HasKey((e) => e.DataRecordingName);
 
@@ -101,14 +105,14 @@ namespace MedicalResearch.Workflow.Persistence.EF {
       cfgDataRecordingTask
         .HasOne((lcl) => lcl.ResearchStudy )
         .WithMany((rem) => rem.DataRecordingTasks )
-        .HasForeignKey(nameof(DataRecordingTask.StudyWorkflowName), nameof(DataRecordingTask.StudyWorkflowVersion))
+        .HasForeignKey(nameof(DataRecordingTaskEntity.StudyWorkflowName), nameof(DataRecordingTaskEntity.StudyWorkflowVersion))
         .OnDelete(DeleteBehavior.Cascade);
 
       //////////////////////////////////////////////////////////////////////////////////////
       // InducedDataRecordingTask
       //////////////////////////////////////////////////////////////////////////////////////
 
-      var cfgInducedDataRecordingTask = modelBuilder.Entity<InducedDataRecordingTask>();
+      var cfgInducedDataRecordingTask = modelBuilder.Entity<InducedDataRecordingTaskEntity>();
       cfgInducedDataRecordingTask.ToTable("WdrInducedDataRecordingTasks");
       cfgInducedDataRecordingTask.HasKey((e) => e.Id);
 
@@ -116,21 +120,21 @@ namespace MedicalResearch.Workflow.Persistence.EF {
       cfgInducedDataRecordingTask
         .HasOne((lcl) => lcl.InducedTask )
         .WithMany((rem) => rem.Inducements )
-        .HasForeignKey(nameof(InducedDataRecordingTask.InducedDataRecordingName))
+        .HasForeignKey(nameof(InducedDataRecordingTaskEntity.InducedDataRecordingName))
         .OnDelete(DeleteBehavior.Restrict);
 
       // PRINCIPAL: >>> TaskSchedule
       cfgInducedDataRecordingTask
         .HasOne((lcl) => lcl.TaskSchedule )
         .WithMany((rem) => rem.InducedDataRecordingTasks )
-        .HasForeignKey(nameof(InducedDataRecordingTask.TaskScheduleId))
+        .HasForeignKey(nameof(InducedDataRecordingTaskEntity.TaskScheduleId))
         .OnDelete(DeleteBehavior.Cascade);
 
       //////////////////////////////////////////////////////////////////////////////////////
       // DrugApplymentTask
       //////////////////////////////////////////////////////////////////////////////////////
 
-      var cfgDrugApplymentTask = modelBuilder.Entity<DrugApplymentTask>();
+      var cfgDrugApplymentTask = modelBuilder.Entity<DrugApplymentTaskEntity>();
       cfgDrugApplymentTask.ToTable("WdrDrugAppliymentTasks");
       cfgDrugApplymentTask.HasKey((e) => e.DrugApplymentName);
 
@@ -138,14 +142,14 @@ namespace MedicalResearch.Workflow.Persistence.EF {
       cfgDrugApplymentTask
         .HasOne((lcl) => lcl.ResearchStudy )
         .WithMany((rem) => rem.DrugApplymentTasks )
-        .HasForeignKey(nameof(DrugApplymentTask.StudyWorkflowName), nameof(DrugApplymentTask.StudyWorkflowVersion))
+        .HasForeignKey(nameof(DrugApplymentTaskEntity.StudyWorkflowName), nameof(DrugApplymentTaskEntity.StudyWorkflowVersion))
         .OnDelete(DeleteBehavior.Cascade);
 
       //////////////////////////////////////////////////////////////////////////////////////
       // InducedDrugApplymentTask
       //////////////////////////////////////////////////////////////////////////////////////
 
-      var cfgInducedDrugApplymentTask = modelBuilder.Entity<InducedDrugApplymentTask>();
+      var cfgInducedDrugApplymentTask = modelBuilder.Entity<InducedDrugApplymentTaskEntity>();
       cfgInducedDrugApplymentTask.ToTable("WdrInducedDrugApplymentTasks");
       cfgInducedDrugApplymentTask.HasKey((e) => e.Id);
 
@@ -153,21 +157,21 @@ namespace MedicalResearch.Workflow.Persistence.EF {
       cfgInducedDrugApplymentTask
         .HasOne((lcl) => lcl.InducedTask )
         .WithMany((rem) => rem.Inducements )
-        .HasForeignKey(nameof(InducedDrugApplymentTask.InducedDrugApplymentName))
+        .HasForeignKey(nameof(InducedDrugApplymentTaskEntity.InducedDrugApplymentName))
         .OnDelete(DeleteBehavior.Restrict);
 
       // PRINCIPAL: >>> TaskSchedule
       cfgInducedDrugApplymentTask
         .HasOne((lcl) => lcl.TaskSchedule )
         .WithMany((rem) => rem.InducedDrugApplymentTasks )
-        .HasForeignKey(nameof(InducedDrugApplymentTask.TaskScheduleId))
+        .HasForeignKey(nameof(InducedDrugApplymentTaskEntity.TaskScheduleId))
         .OnDelete(DeleteBehavior.Cascade);
 
       //////////////////////////////////////////////////////////////////////////////////////
       // TaskSchedule
       //////////////////////////////////////////////////////////////////////////////////////
 
-      var cfgTaskSchedule = modelBuilder.Entity<TaskSchedule>();
+      var cfgTaskSchedule = modelBuilder.Entity<TaskScheduleEntity>();
       cfgTaskSchedule.ToTable("WdrTaskSchedules");
       cfgTaskSchedule.HasKey((e) => e.TaskScheduleId);
 
@@ -175,14 +179,14 @@ namespace MedicalResearch.Workflow.Persistence.EF {
       cfgTaskSchedule
         .HasOne((lcl) => lcl.ResearchStudy )
         .WithMany((rem) => rem.TaskSchedules )
-        .HasForeignKey(nameof(TaskSchedule.StudyWorkflowName), nameof(TaskSchedule.StudyWorkflowVersion))
+        .HasForeignKey(nameof(TaskScheduleEntity.StudyWorkflowName), nameof(TaskScheduleEntity.StudyWorkflowVersion))
         .OnDelete(DeleteBehavior.Cascade);
 
       //////////////////////////////////////////////////////////////////////////////////////
       // InducedSubProcedureSchedule
       //////////////////////////////////////////////////////////////////////////////////////
 
-      var cfgInducedSubProcedureSchedule = modelBuilder.Entity<InducedSubProcedureSchedule>();
+      var cfgInducedSubProcedureSchedule = modelBuilder.Entity<InducedSubProcedureScheduleEntity>();
       cfgInducedSubProcedureSchedule.ToTable("WdrInducedSubProcedureSchedules");
       cfgInducedSubProcedureSchedule.HasKey((e) => e.Id);
 
@@ -190,21 +194,21 @@ namespace MedicalResearch.Workflow.Persistence.EF {
       cfgInducedSubProcedureSchedule
         .HasOne((lcl) => lcl.ParentProcedureSchedule )
         .WithMany((rem) => rem.InducedSubProcedureSchedules )
-        .HasForeignKey(nameof(InducedSubProcedureSchedule.ParentProcedureScheduleId))
+        .HasForeignKey(nameof(InducedSubProcedureScheduleEntity.ParentProcedureScheduleId))
         .OnDelete(DeleteBehavior.Cascade);
 
       // LOOKUP: >>> ProcedureSchedule
       cfgInducedSubProcedureSchedule
         .HasOne((lcl) => lcl.InducedProcedureSchedule )
         .WithMany((rem) => rem.InducingSubProcedureSchedules )
-        .HasForeignKey(nameof(InducedSubProcedureSchedule.InducedProcedureScheduleId))
+        .HasForeignKey(nameof(InducedSubProcedureScheduleEntity.InducedProcedureScheduleId))
         .OnDelete(DeleteBehavior.Restrict);
 
       //////////////////////////////////////////////////////////////////////////////////////
       // InducedSubTaskSchedule
       //////////////////////////////////////////////////////////////////////////////////////
 
-      var cfgInducedSubTaskSchedule = modelBuilder.Entity<InducedSubTaskSchedule>();
+      var cfgInducedSubTaskSchedule = modelBuilder.Entity<InducedSubTaskScheduleEntity>();
       cfgInducedSubTaskSchedule.ToTable("WdrInducedSubTaskSchedules");
       cfgInducedSubTaskSchedule.HasKey((e) => e.Id);
 
@@ -212,21 +216,21 @@ namespace MedicalResearch.Workflow.Persistence.EF {
       cfgInducedSubTaskSchedule
         .HasOne((lcl) => lcl.ParentTaskSchedule )
         .WithMany((rem) => rem.InducedSubTaskSchedules )
-        .HasForeignKey(nameof(InducedSubTaskSchedule.ParentTaskScheduleId))
+        .HasForeignKey(nameof(InducedSubTaskScheduleEntity.ParentTaskScheduleId))
         .OnDelete(DeleteBehavior.Cascade);
 
       // LOOKUP: >>> TaskSchedule
       cfgInducedSubTaskSchedule
         .HasOne((lcl) => lcl.InducedTaskSchedule )
         .WithMany((rem) => rem.InducingTaskSchedules )
-        .HasForeignKey(nameof(InducedSubTaskSchedule.InducedTaskScheduleId))
+        .HasForeignKey(nameof(InducedSubTaskScheduleEntity.InducedTaskScheduleId))
         .OnDelete(DeleteBehavior.Restrict);
 
       //////////////////////////////////////////////////////////////////////////////////////
       // InducedTreatmentTask
       //////////////////////////////////////////////////////////////////////////////////////
 
-      var cfgInducedTreatmentTask = modelBuilder.Entity<InducedTreatmentTask>();
+      var cfgInducedTreatmentTask = modelBuilder.Entity<InducedTreatmentTaskEntity>();
       cfgInducedTreatmentTask.ToTable("WdrInducedTreatmentTasks");
       cfgInducedTreatmentTask.HasKey((e) => e.Id);
 
@@ -234,21 +238,21 @@ namespace MedicalResearch.Workflow.Persistence.EF {
       cfgInducedTreatmentTask
         .HasOne((lcl) => lcl.TaskSchedule )
         .WithMany((rem) => rem.InducedTreatmentTasks )
-        .HasForeignKey(nameof(InducedTreatmentTask.TaskScheduleId))
+        .HasForeignKey(nameof(InducedTreatmentTaskEntity.TaskScheduleId))
         .OnDelete(DeleteBehavior.Cascade);
 
       // LOOKUP: >>> TreatmentTask
       cfgInducedTreatmentTask
         .HasOne((lcl) => lcl.InducedTask )
         .WithMany((rem) => rem.Inducements )
-        .HasForeignKey(nameof(InducedTreatmentTask.InducedTreatmentName))
+        .HasForeignKey(nameof(InducedTreatmentTaskEntity.InducedTreatmentName))
         .OnDelete(DeleteBehavior.Restrict);
 
       //////////////////////////////////////////////////////////////////////////////////////
       // TreatmentTask
       //////////////////////////////////////////////////////////////////////////////////////
 
-      var cfgTreatmentTask = modelBuilder.Entity<TreatmentTask>();
+      var cfgTreatmentTask = modelBuilder.Entity<TreatmentTaskEntity>();
       cfgTreatmentTask.ToTable("WdrTreatmentTasks");
       cfgTreatmentTask.HasKey((e) => e.TreatmentName);
 
@@ -256,14 +260,14 @@ namespace MedicalResearch.Workflow.Persistence.EF {
       cfgTreatmentTask
         .HasOne((lcl) => lcl.ResearchStudy )
         .WithMany((rem) => rem.TreatmentTasks )
-        .HasForeignKey(nameof(TreatmentTask.StudyWorkflowName), nameof(TreatmentTask.StudyWorkflowVersion))
+        .HasForeignKey(nameof(TreatmentTaskEntity.StudyWorkflowName), nameof(TreatmentTaskEntity.StudyWorkflowVersion))
         .OnDelete(DeleteBehavior.Cascade);
 
       //////////////////////////////////////////////////////////////////////////////////////
       // InducedVisitProcedure
       //////////////////////////////////////////////////////////////////////////////////////
 
-      var cfgInducedVisitProcedure = modelBuilder.Entity<InducedVisitProcedure>();
+      var cfgInducedVisitProcedure = modelBuilder.Entity<InducedVisitProcedureEntity>();
       cfgInducedVisitProcedure.ToTable("WdrInducedVisitProcedures");
       cfgInducedVisitProcedure.HasKey((e) => e.Id);
 
@@ -271,21 +275,21 @@ namespace MedicalResearch.Workflow.Persistence.EF {
       cfgInducedVisitProcedure
         .HasOne((lcl) => lcl.ProcedureSchedule )
         .WithMany((rem) => rem.InducedProcedures )
-        .HasForeignKey(nameof(InducedVisitProcedure.ProcedureScheduleId))
+        .HasForeignKey(nameof(InducedVisitProcedureEntity.ProcedureScheduleId))
         .OnDelete(DeleteBehavior.Cascade);
 
       // LOOKUP: >>> VisitProdecureDefinition
       cfgInducedVisitProcedure
         .HasOne((lcl) => lcl.InducedVisitProdecure )
         .WithMany((rem) => rem.Inducements )
-        .HasForeignKey(nameof(InducedVisitProcedure.InducedVisitProdecureName))
+        .HasForeignKey(nameof(InducedVisitProcedureEntity.InducedVisitProdecureName))
         .OnDelete(DeleteBehavior.Restrict);
 
       //////////////////////////////////////////////////////////////////////////////////////
       // VisitProdecureDefinition
       //////////////////////////////////////////////////////////////////////////////////////
 
-      var cfgVisitProdecureDefinition = modelBuilder.Entity<VisitProdecureDefinition>();
+      var cfgVisitProdecureDefinition = modelBuilder.Entity<VisitProdecureDefinitionEntity>();
       cfgVisitProdecureDefinition.ToTable("WdrVisitProdecureDefinitions");
       cfgVisitProdecureDefinition.HasKey((e) => e.VisitProdecureName);
 
@@ -293,21 +297,21 @@ namespace MedicalResearch.Workflow.Persistence.EF {
       cfgVisitProdecureDefinition
         .HasOne((lcl) => lcl.ResearchStudy )
         .WithMany((rem) => rem.VisitProdecureDefinitions )
-        .HasForeignKey(nameof(VisitProdecureDefinition.StudyWorkflowName), nameof(VisitProdecureDefinition.StudyWorkflowVersion))
+        .HasForeignKey(nameof(VisitProdecureDefinitionEntity.StudyWorkflowName), nameof(VisitProdecureDefinitionEntity.StudyWorkflowVersion))
         .OnDelete(DeleteBehavior.Cascade);
 
       // LOOKUP: >>> TaskSchedule
       cfgVisitProdecureDefinition
         .HasOne((lcl) => lcl.RootTaskSchedule )
         .WithMany((rem) => rem.EntryVisitProdecureDefinitions )
-        .HasForeignKey(nameof(VisitProdecureDefinition.RootTaskScheduleId))
+        .HasForeignKey(nameof(VisitProdecureDefinitionEntity.RootTaskScheduleId))
         .OnDelete(DeleteBehavior.Restrict);
 
       //////////////////////////////////////////////////////////////////////////////////////
       // ProcedureCycleDefinition
       //////////////////////////////////////////////////////////////////////////////////////
 
-      var cfgProcedureCycleDefinition = modelBuilder.Entity<ProcedureCycleDefinition>();
+      var cfgProcedureCycleDefinition = modelBuilder.Entity<ProcedureCycleDefinitionEntity>();
       cfgProcedureCycleDefinition.ToTable("WdrProcedureCycleDefinitions");
       cfgProcedureCycleDefinition.HasKey((e) => e.ProcedureScheduleId);
 
@@ -315,13 +319,14 @@ namespace MedicalResearch.Workflow.Persistence.EF {
       cfgProcedureCycleDefinition
         .HasOne((lcl) => lcl.ProcedureSchedule )
         .WithOne((rem) => rem.CycleDefinition )
+        .HasForeignKey(typeof(ProcedureCycleDefinitionEntity), nameof(ProcedureCycleDefinitionEntity.ProcedureScheduleId))
         .OnDelete(DeleteBehavior.Cascade);
 
       //////////////////////////////////////////////////////////////////////////////////////
       // StudyEvent
       //////////////////////////////////////////////////////////////////////////////////////
 
-      var cfgStudyEvent = modelBuilder.Entity<StudyEvent>();
+      var cfgStudyEvent = modelBuilder.Entity<StudyEventEntity>();
       cfgStudyEvent.ToTable("WdrStudyEvents");
       cfgStudyEvent.HasKey((e) => e.StudyEventName);
 
@@ -329,14 +334,14 @@ namespace MedicalResearch.Workflow.Persistence.EF {
       cfgStudyEvent
         .HasOne((lcl) => lcl.ResearchStudy )
         .WithMany((rem) => rem.Events )
-        .HasForeignKey(nameof(StudyEvent.StudyWorkflowName), nameof(StudyEvent.StudyWorkflowVersion))
+        .HasForeignKey(nameof(StudyEventEntity.StudyWorkflowName), nameof(StudyEventEntity.StudyWorkflowVersion))
         .OnDelete(DeleteBehavior.Cascade);
 
       //////////////////////////////////////////////////////////////////////////////////////
       // TaskCycleDefinition
       //////////////////////////////////////////////////////////////////////////////////////
 
-      var cfgTaskCycleDefinition = modelBuilder.Entity<TaskCycleDefinition>();
+      var cfgTaskCycleDefinition = modelBuilder.Entity<TaskCycleDefinitionEntity>();
       cfgTaskCycleDefinition.ToTable("WdrTaskCycleDefinitions");
       cfgTaskCycleDefinition.HasKey((e) => e.TaskScheduleId);
 
@@ -344,11 +349,15 @@ namespace MedicalResearch.Workflow.Persistence.EF {
       cfgTaskCycleDefinition
         .HasOne((lcl) => lcl.TaskSchedule )
         .WithOne((rem) => rem.CycleDefinition )
+        .HasForeignKey(typeof(TaskCycleDefinitionEntity), nameof(TaskCycleDefinitionEntity.TaskScheduleId))
         .OnDelete(DeleteBehavior.Cascade);
 
 #endregion
 
+      this.OnModelCreatingCustom(modelBuilder);
     }
+
+    partial void OnModelCreatingCustom(ModelBuilder modelBuilder);
 
     protected override void OnConfiguring(DbContextOptionsBuilder options) {
 
@@ -358,7 +367,10 @@ namespace MedicalResearch.Workflow.Persistence.EF {
       //reqires separate nuget-package Microsoft.EntityFrameworkCore.Proxies
       options.UseLazyLoadingProxies();
 
+      this.OnConfiguringCustom(options);
     }
+
+    partial void OnConfiguringCustom(DbContextOptionsBuilder options);
 
     public static void Migrate() {
       if (!_Migrated) {

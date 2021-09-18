@@ -17,6 +17,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="EntityAnnotations" Version="2.0.1.387" />
+    <PackageReference Include="KornSW.DynamicRepository" Version="0.1.0.406" />
+    <PackageReference Include="KornSW.EntityFrameworkCore.DataAccessFilter" Version="1.0.0.405" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="5.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.2" />
@@ -27,13 +30,25 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Entities.tt">
+    <None Update="Models.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Models.Generated.cs</LastGenOutput>
+    </None>
+    <None Update="Persistence.EF\Entities.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Entities.Generated.cs</LastGenOutput>
     </None>
     <None Update="Persistence.EF\Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Context.Generated.cs</LastGenOutput>
+    </None>
+    <None Update="RepoInterfaces.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>RepoInterfaces.Generated.cs</LastGenOutput>
+    </None>
+    <None Update="Stores.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Stores.Generated.cs</LastGenOutput>
     </None>
   </ItemGroup>
 
@@ -42,16 +57,35 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Entities.Generated.cs">
+    <Compile Update="Models.Generated.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>Entities.tt</DependentUpon>
+      <DependentUpon>Models.tt</DependentUpon>
     </Compile>
     <Compile Update="Persistence.EF\Context.Generated.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Context.tt</DependentUpon>
     </Compile>
+    <Compile Update="Persistence.EF\Entities.Generated.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Update="RepoInterfaces.Generated.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RepoInterfaces.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Stores.Generated.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Stores.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

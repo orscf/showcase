@@ -1,5 +1,6 @@
 using System;
 using Microsoft.EntityFrameworkCore;
+using MedicalResearch.VisitData.Persistence;
 
 namespace MedicalResearch.VisitData.Persistence.EF {
 
@@ -110,7 +111,10 @@ namespace MedicalResearch.VisitData.Persistence.EF {
 
 #endregion
 
+      this.OnModelCreatingCustom(modelBuilder);
     }
+
+    partial void OnModelCreatingCustom(ModelBuilder modelBuilder);
 
     protected override void OnConfiguring(DbContextOptionsBuilder options) {
 
@@ -120,7 +124,10 @@ namespace MedicalResearch.VisitData.Persistence.EF {
       //reqires separate nuget-package Microsoft.EntityFrameworkCore.Proxies
       options.UseLazyLoadingProxies();
 
+      this.OnConfiguringCustom(options);
     }
+
+    partial void OnConfiguringCustom(DbContextOptionsBuilder options);
 
     public static void Migrate() {
       if (!_Migrated) {

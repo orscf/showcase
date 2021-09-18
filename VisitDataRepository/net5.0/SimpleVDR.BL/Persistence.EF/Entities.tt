@@ -7,13 +7,23 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="Newtonsoft.Json" #>
 <#@ output extension=".Generated.cs"#><#
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
-//     copyright: Tobias Korn / version: 10.04.2021                                          //
+//                                                                                           //
+//     Copyright: Tobias Korn / version: 24.04.2021                                          //
+//                                                                                           //
+//     this template is open source (under Apache-2 license) and originated here:            //
+//     https://github.com/KornSW/EntityFrameworkCore.ModelFirst                              //
+//                                                                                           //
+//     this notice MUST NOT be removed or modified!!!!                                       //
+//                                                                                           //
 ///////////////////////////////////////////////////////////////////////////////////////////////
+
+       //CONFIGURATION:
 
        const string inputFile = "..\\ORSCF-VisitData.Schema.json";
 
-       const string outputNamespace = "MedicalResearch.VisitData";
+       const string outputNamespace = "MedicalResearch.VisitData.Persistence";
        const string entityClassNamePattern = "{E}Entity";
 
        const bool generateNavPropsToPrincipal         = true;
@@ -30,6 +40,7 @@
        const string mappingMethodAccessLevel          = "internal";
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
+// NO EDITS BELOW THIS LINE!!!
 
 string rawSchema = File.ReadAllText(Host.ResolvePath(inputFile), System.Text.Encoding.Default);
 SchemaRoot schema = JsonConvert.DeserializeObject<SchemaRoot>(rawSchema);
@@ -60,6 +71,11 @@ namespace <#=outputNamespace#> {
 }
 
 foreach (EntitySchema entity in schema.Entities) {
+
+  EntitySchema baseEntity = entity;
+  while (!String.IsNullOrWhiteSpace(baseEntity.InheritedEntityName)){
+    baseEntity = schema.Entities.Where(e => e.Name == baseEntity.InheritedEntityName).Single();
+  }
 
   Dictionary<String, List<String>> attributesPerField = new Dictionary<String, List<String>>();
   foreach (FieldSchema field in entity.Fields) {
@@ -97,6 +113,9 @@ foreach (EntitySchema entity in schema.Entities) {
     string typeName = field.Type;
     if(typeName == "Binary"){
       typeName = "Byte[]";
+    }
+    if(typeName == "Time"){
+      typeName = "TimeSpan";
     }
 
     bool isKeyField = false;
@@ -175,8 +194,8 @@ foreach (EntitySchema entity in schema.Entities) {
   foreach (RelationSchema rel in schema.Relations) {
 
     if(rel.PrimaryEntityName == entity.Name){
-      foreach (IndexSchema idx in entity.Indices) {
-        if(idx.Name == entity.PrimaryKeyIndexName){
+      //foreach (IndexSchema idx in entity.Indices) {
+        //if(idx.Name == entity.PrimaryKeyIndexName){
 
           if(!String.IsNullOrWhiteSpace(rel.PrimaryNavigationName)){
             List<String> attributes = new List<String>();
@@ -224,8 +243,8 @@ foreach (EntitySchema entity in schema.Entities) {
 
           }
 
-        }
-      }
+        //}
+      //}
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////
@@ -284,13 +303,22 @@ foreach (EntitySchema entity in schema.Entities) {
   if(generateMappingMethods){
     String resolvedMappingTargetClassName = mappingTargetClassNamePattern.Replace("{E}", entity.Name);
     String resolvedLocalClassName = entityClassNamePattern.Replace("{E}", entity.Name);
+
+    IEnumerable<FieldSchema> allFields = entity.Fields.ToList();
+
+    EntitySchema inheritedEntity = entity;
+    while (!String.IsNullOrWhiteSpace(inheritedEntity.InheritedEntityName)){
+      inheritedEntity = schema.Entities.Where(e => e.Name == inheritedEntity.InheritedEntityName).Single();
+      allFields = inheritedEntity.Fields.ToList().Union(allFields);
+    }
+
 #>
 
 #region Mapping
 
   <#=mappingMethodAccessLevel#> static Expression<Func<<#=resolvedMappingTargetClassName#>, <#=resolvedLocalClassName#>>> <#=resolvedLocalClassName#>Selector = ((<#=resolvedMappingTargetClassName#> src) => new <#=resolvedLocalClassName#> {
 <#
-  foreach (FieldSchema field in entity.Fields) {
+  foreach (FieldSchema field in allFields) {
 #>
     <#=field.Name#> = src.<#=field.Name#>,
 <#
@@ -300,7 +328,7 @@ foreach (EntitySchema entity in schema.Entities) {
 
   <#=mappingMethodAccessLevel#> static Expression<Func<<#=resolvedLocalClassName#>, <#=resolvedMappingTargetClassName#>>> <#=resolvedMappingTargetClassName#>Selector = ((<#=resolvedLocalClassName#> src) => new <#=resolvedMappingTargetClassName#> {
 <#
-  foreach (FieldSchema field in entity.Fields) {
+  foreach (FieldSchema field in allFields) {
 #>
     <#=field.Name#> = src.<#=field.Name#>,
 <#
@@ -310,7 +338,7 @@ foreach (EntitySchema entity in schema.Entities) {
 
   <#=mappingMethodAccessLevel#> void CopyContentFrom(<#=resolvedMappingTargetClassName#> source, Func<String,bool> onFixedValueChangingCallback = null){
 <#
-  foreach (FieldSchema field in entity.Fields) {
+  foreach (FieldSchema field in allFields) {
  
     if(field.FixedAfterCreation){
 #>
@@ -332,7 +360,7 @@ foreach (EntitySchema entity in schema.Entities) {
 
   <#=mappingMethodAccessLevel#> void CopyContentTo(<#=resolvedMappingTargetClassName#> target, Func<String,bool> onFixedValueChangingCallback = null){
 <#
-  foreach (FieldSchema field in entity.Fields) {
+  foreach (FieldSchema field in allFields) {
  
     if(field.FixedAfterCreation){
 #>
@@ -376,6 +404,18 @@ if(!String.IsNullOrWhiteSpace(outputNamespace)) {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 //     GENERATOR-CODE                                                                        //
 ///////////////////////////////////////////////////////////////////////////////////////////////
+
+string Escape(object input){  
+  if(input == null){
+    return "";
+  }
+  string s = input.ToString();
+  String[] compilerSensitveWords = new  String[]{"class", "object"};
+  if (compilerSensitveWords.Contains(s)){
+    return "@" + s;
+  }
+  return s;
+}
 
 class SchemaRoot{
 

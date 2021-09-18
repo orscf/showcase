@@ -2,10 +2,8 @@
 using System.Data.AccessControl;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Linq.Dynamic.Core;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 
 namespace MedicalResearch.VisitData.Persistence.EF {
 

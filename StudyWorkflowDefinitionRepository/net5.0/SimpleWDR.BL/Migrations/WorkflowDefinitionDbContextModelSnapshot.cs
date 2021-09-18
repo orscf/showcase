@@ -19,7 +19,7 @@ namespace MedicalResearch.Workflow.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.2");
 
-            modelBuilder.Entity("MedicalResearch.Workflow.Arm", b =>
+            modelBuilder.Entity("MedicalResearch.Workflow.Persistence.ArmEntity", b =>
                 {
                     b.Property<string>("StudyArmName")
                         .HasMaxLength(50)
@@ -66,7 +66,7 @@ namespace MedicalResearch.Workflow.Migrations
                     b.ToTable("WdrArms");
                 });
 
-            modelBuilder.Entity("MedicalResearch.Workflow.DataRecordingTask", b =>
+            modelBuilder.Entity("MedicalResearch.Workflow.Persistence.DataRecordingTaskEntity", b =>
                 {
                     b.Property<string>("DataRecordingName")
                         .HasMaxLength(50)
@@ -109,7 +109,7 @@ namespace MedicalResearch.Workflow.Migrations
                     b.ToTable("WdrDataRecordingTasks");
                 });
 
-            modelBuilder.Entity("MedicalResearch.Workflow.DrugApplymentTask", b =>
+            modelBuilder.Entity("MedicalResearch.Workflow.Persistence.DrugApplymentTaskEntity", b =>
                 {
                     b.Property<string>("DrugApplymentName")
                         .HasMaxLength(50)
@@ -159,7 +159,7 @@ namespace MedicalResearch.Workflow.Migrations
                     b.ToTable("WdrDrugAppliymentTasks");
                 });
 
-            modelBuilder.Entity("MedicalResearch.Workflow.InducedDataRecordingTask", b =>
+            modelBuilder.Entity("MedicalResearch.Workflow.Persistence.InducedDataRecordingTaskEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -216,7 +216,7 @@ namespace MedicalResearch.Workflow.Migrations
                     b.ToTable("WdrInducedDataRecordingTasks");
                 });
 
-            modelBuilder.Entity("MedicalResearch.Workflow.InducedDrugApplymentTask", b =>
+            modelBuilder.Entity("MedicalResearch.Workflow.Persistence.InducedDrugApplymentTaskEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -273,7 +273,7 @@ namespace MedicalResearch.Workflow.Migrations
                     b.ToTable("WdrInducedDrugApplymentTasks");
                 });
 
-            modelBuilder.Entity("MedicalResearch.Workflow.InducedSubProcedureSchedule", b =>
+            modelBuilder.Entity("MedicalResearch.Workflow.Persistence.InducedSubProcedureScheduleEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -319,7 +319,7 @@ namespace MedicalResearch.Workflow.Migrations
                     b.ToTable("WdrInducedSubProcedureSchedules");
                 });
 
-            modelBuilder.Entity("MedicalResearch.Workflow.InducedSubTaskSchedule", b =>
+            modelBuilder.Entity("MedicalResearch.Workflow.Persistence.InducedSubTaskScheduleEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -365,7 +365,7 @@ namespace MedicalResearch.Workflow.Migrations
                     b.ToTable("WdrInducedSubTaskSchedules");
                 });
 
-            modelBuilder.Entity("MedicalResearch.Workflow.InducedTreatmentTask", b =>
+            modelBuilder.Entity("MedicalResearch.Workflow.Persistence.InducedTreatmentTaskEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -422,7 +422,7 @@ namespace MedicalResearch.Workflow.Migrations
                     b.ToTable("WdrInducedTreatmentTasks");
                 });
 
-            modelBuilder.Entity("MedicalResearch.Workflow.InducedVisitProcedure", b =>
+            modelBuilder.Entity("MedicalResearch.Workflow.Persistence.InducedVisitProcedureEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -479,7 +479,7 @@ namespace MedicalResearch.Workflow.Migrations
                     b.ToTable("WdrInducedVisitProcedures");
                 });
 
-            modelBuilder.Entity("MedicalResearch.Workflow.ProcedureCycleDefinition", b =>
+            modelBuilder.Entity("MedicalResearch.Workflow.Persistence.ProcedureCycleDefinitionEntity", b =>
                 {
                     b.Property<Guid>("ProcedureScheduleId")
                         .HasColumnType("uniqueidentifier");
@@ -509,7 +509,7 @@ namespace MedicalResearch.Workflow.Migrations
                     b.ToTable("WdrProcedureCycleDefinitions");
                 });
 
-            modelBuilder.Entity("MedicalResearch.Workflow.ProcedureSchedule", b =>
+            modelBuilder.Entity("MedicalResearch.Workflow.Persistence.ProcedureScheduleEntity", b =>
                 {
                     b.Property<Guid>("ProcedureScheduleId")
                         .ValueGeneratedOnAdd()
@@ -572,7 +572,7 @@ namespace MedicalResearch.Workflow.Migrations
                     b.ToTable("WdrProcedureSchedules");
                 });
 
-            modelBuilder.Entity("MedicalResearch.Workflow.ResearchStudy", b =>
+            modelBuilder.Entity("MedicalResearch.Workflow.Persistence.ResearchStudyEntity", b =>
                 {
                     b.Property<string>("StudyWorkflowName")
                         .HasMaxLength(100)
@@ -629,7 +629,7 @@ namespace MedicalResearch.Workflow.Migrations
                     b.ToTable("WdrResearchStudies");
                 });
 
-            modelBuilder.Entity("MedicalResearch.Workflow.StudyEvent", b =>
+            modelBuilder.Entity("MedicalResearch.Workflow.Persistence.StudyEventEntity", b =>
                 {
                     b.Property<string>("StudyEventName")
                         .HasMaxLength(50)
@@ -665,7 +665,7 @@ namespace MedicalResearch.Workflow.Migrations
                     b.ToTable("WdrStudyEvents");
                 });
 
-            modelBuilder.Entity("MedicalResearch.Workflow.TaskCycleDefinition", b =>
+            modelBuilder.Entity("MedicalResearch.Workflow.Persistence.TaskCycleDefinitionEntity", b =>
                 {
                     b.Property<Guid>("TaskScheduleId")
                         .HasColumnType("uniqueidentifier");
@@ -696,7 +696,7 @@ namespace MedicalResearch.Workflow.Migrations
                     b.ToTable("WdrTaskCycleDefinitions");
                 });
 
-            modelBuilder.Entity("MedicalResearch.Workflow.TaskSchedule", b =>
+            modelBuilder.Entity("MedicalResearch.Workflow.Persistence.TaskScheduleEntity", b =>
                 {
                     b.Property<Guid>("TaskScheduleId")
                         .ValueGeneratedOnAdd()
@@ -759,7 +759,7 @@ namespace MedicalResearch.Workflow.Migrations
                     b.ToTable("WdrTaskSchedules");
                 });
 
-            modelBuilder.Entity("MedicalResearch.Workflow.TreatmentTask", b =>
+            modelBuilder.Entity("MedicalResearch.Workflow.Persistence.TreatmentTaskEntity", b =>
                 {
                     b.Property<string>("TreatmentName")
                         .HasMaxLength(50)
@@ -799,7 +799,7 @@ namespace MedicalResearch.Workflow.Migrations
                     b.ToTable("WdrTreatmentTasks");
                 });
 
-            modelBuilder.Entity("MedicalResearch.Workflow.VisitProdecureDefinition", b =>
+            modelBuilder.Entity("MedicalResearch.Workflow.Persistence.VisitProdecureDefinitionEntity", b =>
                 {
                     b.Property<string>("VisitProdecureName")
                         .HasMaxLength(50)
@@ -836,14 +836,14 @@ namespace MedicalResearch.Workflow.Migrations
                     b.ToTable("WdrVisitProdecureDefinitions");
                 });
 
-            modelBuilder.Entity("MedicalResearch.Workflow.Arm", b =>
+            modelBuilder.Entity("MedicalResearch.Workflow.Persistence.ArmEntity", b =>
                 {
-                    b.HasOne("MedicalResearch.Workflow.ProcedureSchedule", "RootProcedureSchedule")
+                    b.HasOne("MedicalResearch.Workflow.Persistence.ProcedureScheduleEntity", "RootProcedureSchedule")
                         .WithMany("EntryArms")
                         .HasForeignKey("RootProcedureScheduleId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("MedicalResearch.Workflow.ResearchStudy", "ResearchStudy")
+                    b.HasOne("MedicalResearch.Workflow.Persistence.ResearchStudyEntity", "ResearchStudy")
                         .WithMany("Arms")
                         .HasForeignKey("StudyWorkflowName", "StudyWorkflowVersion")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -854,9 +854,9 @@ namespace MedicalResearch.Workflow.Migrations
                     b.Navigation("RootProcedureSchedule");
                 });
 
-            modelBuilder.Entity("MedicalResearch.Workflow.DataRecordingTask", b =>
+            modelBuilder.Entity("MedicalResearch.Workflow.Persistence.DataRecordingTaskEntity", b =>
                 {
-                    b.HasOne("MedicalResearch.Workflow.ResearchStudy", "ResearchStudy")
+                    b.HasOne("MedicalResearch.Workflow.Persistence.ResearchStudyEntity", "ResearchStudy")
                         .WithMany("DataRecordingTasks")
                         .HasForeignKey("StudyWorkflowName", "StudyWorkflowVersion")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -865,9 +865,9 @@ namespace MedicalResearch.Workflow.Migrations
                     b.Navigation("ResearchStudy");
                 });
 
-            modelBuilder.Entity("MedicalResearch.Workflow.DrugApplymentTask", b =>
+            modelBuilder.Entity("MedicalResearch.Workflow.Persistence.DrugApplymentTaskEntity", b =>
                 {
-                    b.HasOne("MedicalResearch.Workflow.ResearchStudy", "ResearchStudy")
+                    b.HasOne("MedicalResearch.Workflow.Persistence.ResearchStudyEntity", "ResearchStudy")
                         .WithMany("DrugApplymentTasks")
                         .HasForeignKey("StudyWorkflowName", "StudyWorkflowVersion")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -876,15 +876,15 @@ namespace MedicalResearch.Workflow.Migrations
                     b.Navigation("ResearchStudy");
                 });
 
-            modelBuilder.Entity("MedicalResearch.Workflow.InducedDataRecordingTask", b =>
+            modelBuilder.Entity("MedicalResearch.Workflow.Persistence.InducedDataRecordingTaskEntity", b =>
                 {
-                    b.HasOne("MedicalResearch.Workflow.DataRecordingTask", "InducedTask")
+                    b.HasOne("MedicalResearch.Workflow.Persistence.DataRecordingTaskEntity", "InducedTask")
                         .WithMany("Inducements")
                         .HasForeignKey("InducedDataRecordingName")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("MedicalResearch.Workflow.TaskSchedule", "TaskSchedule")
+                    b.HasOne("MedicalResearch.Workflow.Persistence.TaskScheduleEntity", "TaskSchedule")
                         .WithMany("InducedDataRecordingTasks")
                         .HasForeignKey("TaskScheduleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -895,15 +895,15 @@ namespace MedicalResearch.Workflow.Migrations
                     b.Navigation("TaskSchedule");
                 });
 
-            modelBuilder.Entity("MedicalResearch.Workflow.InducedDrugApplymentTask", b =>
+            modelBuilder.Entity("MedicalResearch.Workflow.Persistence.InducedDrugApplymentTaskEntity", b =>
                 {
-                    b.HasOne("MedicalResearch.Workflow.DrugApplymentTask", "InducedTask")
+                    b.HasOne("MedicalResearch.Workflow.Persistence.DrugApplymentTaskEntity", "InducedTask")
                         .WithMany("Inducements")
                         .HasForeignKey("InducedDrugApplymentName")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("MedicalResearch.Workflow.TaskSchedule", "TaskSchedule")
+                    b.HasOne("MedicalResearch.Workflow.Persistence.TaskScheduleEntity", "TaskSchedule")
                         .WithMany("InducedDrugApplymentTasks")
                         .HasForeignKey("TaskScheduleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -914,15 +914,15 @@ namespace MedicalResearch.Workflow.Migrations
                     b.Navigation("TaskSchedule");
                 });
 
-            modelBuilder.Entity("MedicalResearch.Workflow.InducedSubProcedureSchedule", b =>
+            modelBuilder.Entity("MedicalResearch.Workflow.Persistence.InducedSubProcedureScheduleEntity", b =>
                 {
-                    b.HasOne("MedicalResearch.Workflow.ProcedureSchedule", "InducedProcedureSchedule")
+                    b.HasOne("MedicalResearch.Workflow.Persistence.ProcedureScheduleEntity", "InducedProcedureSchedule")
                         .WithMany("InducingSubProcedureSchedules")
                         .HasForeignKey("InducedProcedureScheduleId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("MedicalResearch.Workflow.ProcedureSchedule", "ParentProcedureSchedule")
+                    b.HasOne("MedicalResearch.Workflow.Persistence.ProcedureScheduleEntity", "ParentProcedureSchedule")
                         .WithMany("InducedSubProcedureSchedules")
                         .HasForeignKey("ParentProcedureScheduleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -933,15 +933,15 @@ namespace MedicalResearch.Workflow.Migrations
                     b.Navigation("ParentProcedureSchedule");
                 });
 
-            modelBuilder.Entity("MedicalResearch.Workflow.InducedSubTaskSchedule", b =>
+            modelBuilder.Entity("MedicalResearch.Workflow.Persistence.InducedSubTaskScheduleEntity", b =>
                 {
-                    b.HasOne("MedicalResearch.Workflow.TaskSchedule", "InducedTaskSchedule")
+                    b.HasOne("MedicalResearch.Workflow.Persistence.TaskScheduleEntity", "InducedTaskSchedule")
                         .WithMany("InducingTaskSchedules")
                         .HasForeignKey("InducedTaskScheduleId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("MedicalResearch.Workflow.TaskSchedule", "ParentTaskSchedule")
+                    b.HasOne("MedicalResearch.Workflow.Persistence.TaskScheduleEntity", "ParentTaskSchedule")
                         .WithMany("InducedSubTaskSchedules")
                         .HasForeignKey("ParentTaskScheduleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -952,15 +952,15 @@ namespace MedicalResearch.Workflow.Migrations
                     b.Navigation("ParentTaskSchedule");
                 });
 
-            modelBuilder.Entity("MedicalResearch.Workflow.InducedTreatmentTask", b =>
+            modelBuilder.Entity("MedicalResearch.Workflow.Persistence.InducedTreatmentTaskEntity", b =>
                 {
-                    b.HasOne("MedicalResearch.Workflow.TreatmentTask", "InducedTask")
+                    b.HasOne("MedicalResearch.Workflow.Persistence.TreatmentTaskEntity", "InducedTask")
                         .WithMany("Inducements")
                         .HasForeignKey("InducedTreatmentName")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("MedicalResearch.Workflow.TaskSchedule", "TaskSchedule")
+                    b.HasOne("MedicalResearch.Workflow.Persistence.TaskScheduleEntity", "TaskSchedule")
                         .WithMany("InducedTreatmentTasks")
                         .HasForeignKey("TaskScheduleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -971,15 +971,15 @@ namespace MedicalResearch.Workflow.Migrations
                     b.Navigation("TaskSchedule");
                 });
 
-            modelBuilder.Entity("MedicalResearch.Workflow.InducedVisitProcedure", b =>
+            modelBuilder.Entity("MedicalResearch.Workflow.Persistence.InducedVisitProcedureEntity", b =>
                 {
-                    b.HasOne("MedicalResearch.Workflow.VisitProdecureDefinition", "InducedVisitProdecure")
+                    b.HasOne("MedicalResearch.Workflow.Persistence.VisitProdecureDefinitionEntity", "InducedVisitProdecure")
                         .WithMany("Inducements")
                         .HasForeignKey("InducedVisitProdecureName")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("MedicalResearch.Workflow.ProcedureSchedule", "ProcedureSchedule")
+                    b.HasOne("MedicalResearch.Workflow.Persistence.ProcedureScheduleEntity", "ProcedureSchedule")
                         .WithMany("InducedProcedures")
                         .HasForeignKey("ProcedureScheduleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -990,20 +990,20 @@ namespace MedicalResearch.Workflow.Migrations
                     b.Navigation("ProcedureSchedule");
                 });
 
-            modelBuilder.Entity("MedicalResearch.Workflow.ProcedureCycleDefinition", b =>
+            modelBuilder.Entity("MedicalResearch.Workflow.Persistence.ProcedureCycleDefinitionEntity", b =>
                 {
-                    b.HasOne("MedicalResearch.Workflow.ProcedureSchedule", "ProcedureSchedule")
+                    b.HasOne("MedicalResearch.Workflow.Persistence.ProcedureScheduleEntity", "ProcedureSchedule")
                         .WithOne("CycleDefinition")
-                        .HasForeignKey("MedicalResearch.Workflow.ProcedureCycleDefinition", "ProcedureScheduleId")
+                        .HasForeignKey("MedicalResearch.Workflow.Persistence.ProcedureCycleDefinitionEntity", "ProcedureScheduleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("ProcedureSchedule");
                 });
 
-            modelBuilder.Entity("MedicalResearch.Workflow.ProcedureSchedule", b =>
+            modelBuilder.Entity("MedicalResearch.Workflow.Persistence.ProcedureScheduleEntity", b =>
                 {
-                    b.HasOne("MedicalResearch.Workflow.ResearchStudy", "ResearchStudy")
+                    b.HasOne("MedicalResearch.Workflow.Persistence.ResearchStudyEntity", "ResearchStudy")
                         .WithMany("ProcedureSchedules")
                         .HasForeignKey("StudyWorkflowName", "StudyWorkflowVersion")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1012,9 +1012,9 @@ namespace MedicalResearch.Workflow.Migrations
                     b.Navigation("ResearchStudy");
                 });
 
-            modelBuilder.Entity("MedicalResearch.Workflow.StudyEvent", b =>
+            modelBuilder.Entity("MedicalResearch.Workflow.Persistence.StudyEventEntity", b =>
                 {
-                    b.HasOne("MedicalResearch.Workflow.ResearchStudy", "ResearchStudy")
+                    b.HasOne("MedicalResearch.Workflow.Persistence.ResearchStudyEntity", "ResearchStudy")
                         .WithMany("Events")
                         .HasForeignKey("StudyWorkflowName", "StudyWorkflowVersion")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1023,20 +1023,20 @@ namespace MedicalResearch.Workflow.Migrations
                     b.Navigation("ResearchStudy");
                 });
 
-            modelBuilder.Entity("MedicalResearch.Workflow.TaskCycleDefinition", b =>
+            modelBuilder.Entity("MedicalResearch.Workflow.Persistence.TaskCycleDefinitionEntity", b =>
                 {
-                    b.HasOne("MedicalResearch.Workflow.TaskSchedule", "TaskSchedule")
+                    b.HasOne("MedicalResearch.Workflow.Persistence.TaskScheduleEntity", "TaskSchedule")
                         .WithOne("CycleDefinition")
-                        .HasForeignKey("MedicalResearch.Workflow.TaskCycleDefinition", "TaskScheduleId")
+                        .HasForeignKey("MedicalResearch.Workflow.Persistence.TaskCycleDefinitionEntity", "TaskScheduleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("TaskSchedule");
                 });
 
-            modelBuilder.Entity("MedicalResearch.Workflow.TaskSchedule", b =>
+            modelBuilder.Entity("MedicalResearch.Workflow.Persistence.TaskScheduleEntity", b =>
                 {
-                    b.HasOne("MedicalResearch.Workflow.ResearchStudy", "ResearchStudy")
+                    b.HasOne("MedicalResearch.Workflow.Persistence.ResearchStudyEntity", "ResearchStudy")
                         .WithMany("TaskSchedules")
                         .HasForeignKey("StudyWorkflowName", "StudyWorkflowVersion")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1045,9 +1045,9 @@ namespace MedicalResearch.Workflow.Migrations
                     b.Navigation("ResearchStudy");
                 });
 
-            modelBuilder.Entity("MedicalResearch.Workflow.TreatmentTask", b =>
+            modelBuilder.Entity("MedicalResearch.Workflow.Persistence.TreatmentTaskEntity", b =>
                 {
-                    b.HasOne("MedicalResearch.Workflow.ResearchStudy", "ResearchStudy")
+                    b.HasOne("MedicalResearch.Workflow.Persistence.ResearchStudyEntity", "ResearchStudy")
                         .WithMany("TreatmentTasks")
                         .HasForeignKey("StudyWorkflowName", "StudyWorkflowVersion")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1056,14 +1056,14 @@ namespace MedicalResearch.Workflow.Migrations
                     b.Navigation("ResearchStudy");
                 });
 
-            modelBuilder.Entity("MedicalResearch.Workflow.VisitProdecureDefinition", b =>
+            modelBuilder.Entity("MedicalResearch.Workflow.Persistence.VisitProdecureDefinitionEntity", b =>
                 {
-                    b.HasOne("MedicalResearch.Workflow.TaskSchedule", "RootTaskSchedule")
+                    b.HasOne("MedicalResearch.Workflow.Persistence.TaskScheduleEntity", "RootTaskSchedule")
                         .WithMany("EntryVisitProdecureDefinitions")
                         .HasForeignKey("RootTaskScheduleId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("MedicalResearch.Workflow.ResearchStudy", "ResearchStudy")
+                    b.HasOne("MedicalResearch.Workflow.Persistence.ResearchStudyEntity", "ResearchStudy")
                         .WithMany("VisitProdecureDefinitions")
                         .HasForeignKey("StudyWorkflowName", "StudyWorkflowVersion")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1074,17 +1074,17 @@ namespace MedicalResearch.Workflow.Migrations
                     b.Navigation("RootTaskSchedule");
                 });
 
-            modelBuilder.Entity("MedicalResearch.Workflow.DataRecordingTask", b =>
+            modelBuilder.Entity("MedicalResearch.Workflow.Persistence.DataRecordingTaskEntity", b =>
                 {
                     b.Navigation("Inducements");
                 });
 
-            modelBuilder.Entity("MedicalResearch.Workflow.DrugApplymentTask", b =>
+            modelBuilder.Entity("MedicalResearch.Workflow.Persistence.DrugApplymentTaskEntity", b =>
                 {
                     b.Navigation("Inducements");
                 });
 
-            modelBuilder.Entity("MedicalResearch.Workflow.ProcedureSchedule", b =>
+            modelBuilder.Entity("MedicalResearch.Workflow.Persistence.ProcedureScheduleEntity", b =>
                 {
                     b.Navigation("CycleDefinition");
 
@@ -1097,7 +1097,7 @@ namespace MedicalResearch.Workflow.Migrations
                     b.Navigation("InducingSubProcedureSchedules");
                 });
 
-            modelBuilder.Entity("MedicalResearch.Workflow.ResearchStudy", b =>
+            modelBuilder.Entity("MedicalResearch.Workflow.Persistence.ResearchStudyEntity", b =>
                 {
                     b.Navigation("Arms");
 
@@ -1116,7 +1116,7 @@ namespace MedicalResearch.Workflow.Migrations
                     b.Navigation("VisitProdecureDefinitions");
                 });
 
-            modelBuilder.Entity("MedicalResearch.Workflow.TaskSchedule", b =>
+            modelBuilder.Entity("MedicalResearch.Workflow.Persistence.TaskScheduleEntity", b =>
                 {
                     b.Navigation("CycleDefinition");
 
@@ -1133,12 +1133,12 @@ namespace MedicalResearch.Workflow.Migrations
                     b.Navigation("InducingTaskSchedules");
                 });
 
-            modelBuilder.Entity("MedicalResearch.Workflow.TreatmentTask", b =>
+            modelBuilder.Entity("MedicalResearch.Workflow.Persistence.TreatmentTaskEntity", b =>
                 {
                     b.Navigation("Inducements");
                 });
 
-            modelBuilder.Entity("MedicalResearch.Workflow.VisitProdecureDefinition", b =>
+            modelBuilder.Entity("MedicalResearch.Workflow.Persistence.VisitProdecureDefinitionEntity", b =>
                 {
                     b.Navigation("Inducements");
                 });

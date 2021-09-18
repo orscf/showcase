@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Collections.ObjectModel;
 using System.Linq.Expressions;
 
-namespace MedicalResearch.VisitData {
+namespace MedicalResearch.VisitData.Persistence {
 
 public class DataRecordingEntity {
 

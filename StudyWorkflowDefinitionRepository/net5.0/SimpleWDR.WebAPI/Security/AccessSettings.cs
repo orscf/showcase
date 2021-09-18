@@ -4,17 +4,23 @@ using System.IO;
 using System.Text;
 using System.Text.Json;
 using WebAPI;
+using Microsoft.Extensions.Configuration;
+using System;
+using System.IO;
+using System.Text;
+using System.Text.Json;
+using WebAPI;
 
 namespace Security {
 
   public class AccessSettings {
 
-  #region deserialization
+    #region deserialization
 
     private static AccessSettings _Current = null;
     public static AccessSettings Current {
-      get { 
-       if(_Current == null) {
+      get {
+        if (_Current == null) {
           string accessSettingsFileName = Startup.Configuration.GetValue<string>("AccessSettingsFileName");
           string rawFileContent = File.ReadAllText(accessSettingsFileName, Encoding.Default);
           _Current = JsonSerializer.Deserialize<AccessSettings>(rawFileContent);
@@ -23,26 +29,31 @@ namespace Security {
       }
     }
 
-  #endregion 
+    #endregion
 
-    public ApiKeyConfigurationEntry[] ApiKeys { get; set; }
+    public SubjectProfileConfigurationEntry[] SubjectProfiles { get; set; }
+    public string JwtSignKey { get; set; }
+    public string[] JwtAllowedIssuers { get; set; }
 
   }
 
-  public class ApiKeyConfigurationEntry {
+  public class SubjectProfileConfigurationEntry {
 
-    public string ApiKey { get; set; }
+    public string SubjectName { get; set; }
 
-    public string[] AllowedHosts { get; set; }
+    public string SubjectTitle { get; set; } = "";
 
-    public DateTime Expires { get; set; }
+    public bool Disabled { get; set; } = false;
+
+    public String[] AllowedHosts { get; set; }
+
+    public String[] Permissions { get; set; }
+
+    public String[] DenyPermissions { get; set; }
 
     public string ScopeToStudyIdentifier { get; set; }
 
     public string ScopeToExecutingInstituteIdentifier { get; set; }
 
-    public String[] Permissions { get; set; }
-
   }
-
 }
